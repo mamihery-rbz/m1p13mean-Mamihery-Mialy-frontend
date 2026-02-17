@@ -1,0 +1,26 @@
+@if (kpi) {
+  <div class="kpi-container">
+
+    <div class="kpi-card">
+      <h3>Total</h3>
+      <p>{{ kpi.total_orders }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Payées</h3>
+      <p>{{ kpi.paid_orders }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>Non payées</h3>
+      <p>{{ kpi.unpaid_orders }}</p>
+    </div>
+
+    <div class="kpi-card">
+      <h3>En cours</h3>
+      <p>{{ kpi.pending_orders }}</p>
+    </div>
+
+</div>
+}
+
