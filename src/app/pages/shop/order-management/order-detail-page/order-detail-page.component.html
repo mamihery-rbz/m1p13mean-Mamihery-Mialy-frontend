@@ -1,0 +1,16 @@
+<div class="p-6">
+      @if (loading) {
+        <div>Chargement...</div>
+      }
+
+      @if (orderDetails) {
+        <app-order-detail
+          [details]="orderDetails"
+          (detailStatusChange)="update_detail_status($event)">
+        </app-order-detail>
+      }
+
+      @if (errorMessage) {
+        <div class="text-red-500">{{ errorMessage }}</div>
+      }
+</div>

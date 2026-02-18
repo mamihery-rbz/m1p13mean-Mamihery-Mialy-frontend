@@ -1,0 +1,87 @@
+<div class="p-6">
+
+  <h2 class="text-2xl font-bold mb-6">Liste des commandes</h2>
+
+  @if (loading) {
+    <div class="text-center py-6">
+      Chargement...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="text-red-500 mb-4">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (!loading && orders.length > 0) {
+
+    <div class="overflow-x-auto bg-white shadow rounded-xl">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3">Client</th>
+            <th class="px-6 py-3">Total</th>
+            <th class="px-6 py-3">Status</th>
+            <th class="px-6 py-3">Date paiement</th>
+            <th class="px-6 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+
+          @for (order of orders; track order._id) {
+            <tr class="hover:bg-gray-50">
+
+              <td class="px-6 py-4 font-medium">
+                {{ order.user?.name }}
+              </td>
+
+              <td class="px-6 py-4">
+                {{ order.total_price | number:'1.0-2' }}
+              </td>
+
+              <td class="px-6 py-4">
+                <select
+                  class="border rounded-lg px-2 py-1 text-xs"
+                  [value]="order.status"
+                  (change)="onStatusChange($event, order)">
+                  <option value="PENDING">PENDING</option>
+                  <option value="PAID">PAID</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                </select>
+              </td>
+
+              <td class="px-6 py-4">
+                <input type="date"
+                      [value]="order.dt_payment ? (order.dt_payment | date:'yyyy-MM-dd') : ''"
+                      (change)="onDateChange($event, order)"
+                      class="border rounded px-2 py-1 text-sm"/>
+              </td>
+
+
+
+              <td class="px-6 py-4 text-right">
+                <button
+                  (click)="go_to_details(order._id)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-xs">
+                  Voir
+                </button>
+              </td>
+
+            </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+
+  } @else if (!loading && orders.length === 0) {
+
+    <div class="text-center py-6 text-gray-500">
+      Aucune commande trouvée.
+    </div>
+
+  }
+
+</div>

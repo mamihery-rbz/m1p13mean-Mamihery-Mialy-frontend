@@ -1,0 +1,70 @@
+<div class="bg-white shadow rounded-xl p-6">
+
+  <h2 class="text-xl font-bold mb-6">Détails de la commande</h2>
+
+  @if (details.length === 0) {
+    <div class="text-gray-500">Aucun produit dans cette commande.</div>
+  }
+
+  @if (details.length > 0) {
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm text-left">
+        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3">Produit</th>
+            <th class="px-6 py-3">Quantité</th>
+            <th class="px-6 py-3">Prix</th>
+            <th class="px-6 py-3">Total</th>
+            <th class="px-6 py-3">Status</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+
+          @for (item of details; track item._id) {
+
+            <tr class="hover:bg-gray-50">
+
+              <td class="px-6 py-4 font-medium">
+                {{ item.product?.name }}
+              </td>
+
+              <td class="px-6 py-4">
+                {{ item.quantity }}
+              </td>
+
+              <td class="px-6 py-4">
+                {{ item.price | number:'1.0-2' }}
+              </td>
+
+              <td class="px-6 py-4">
+                {{ item.quantity * item.price | number:'1.0-2' }}
+              </td>
+
+              <td class="px-6 py-4">
+                <select
+                  class="border rounded-lg px-2 py-1 text-xs"
+                  [value]="item.status"
+                  (change)="change_detail_status(item._id, $any($event.target).value)">
+
+                  <option value="PENDING">En attente</option>
+                  <option value="PREPARATION">Préparation</option>
+                  <option value="DELIVERED">Delivré</option>
+                  <option value="CANCELLED">Annulé</option>
+
+                </select>
+              </td>
+
+
+            </tr>
+
+          }
+
+        </tbody>
+      </table>
+    </div>
+
+  }
+
+</div>
