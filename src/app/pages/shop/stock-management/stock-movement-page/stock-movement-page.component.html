@@ -1,0 +1,32 @@
+<div class="p-6">
+
+  <h2 class="text-2xl font-bold mb-6">
+    Mouvement de stock
+  </h2>
+
+  @if (loading) {
+    <div>Chargement...</div>
+  }
+
+  @if (errorMessage) {
+    <div class="text-red-500 mb-4">{{ errorMessage }}</div>
+  }
+
+  @if (stockData) {
+
+    <div class="mb-6 bg-white p-4 rounded-xl shadow">
+      <p><strong>Produit :</strong> {{ stockData.product_name }}</p>
+      <p><strong>Categorie :</strong> {{ stockData.category }}</p>
+
+      <p><strong>Stock Total :</strong> {{ stockData.stock_total }}</p>
+      <p><strong>Disponible :</strong> {{ stockData.stock_available }}</p>
+      <p><strong>Réservé :</strong> {{ stockData.reserved }}</p>
+    </div>
+
+    <app-form-stock-movement
+      (submitMovement)="handleMovement($event)">
+    </app-form-stock-movement>
+
+  }
+
+</div>

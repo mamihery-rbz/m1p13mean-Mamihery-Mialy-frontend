@@ -1,0 +1,82 @@
+<div>
+
+  <h2 class="text-2xl font-bold mb-6">
+    Historique des mouvements ({{ product?.name || 'Produit inconnu' }})
+  </h2>
+
+  @if (loading) {
+    <div class="text-center py-6">
+      Chargement...
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="text-red-500 mb-4">
+      {{ errorMessage }}
+    </div>
+  }
+
+  @if (!loading && movements.length > 0) {
+
+    <div class="overflow-x-auto bg-white shadow rounded-xl">
+      <table class="min-w-full text-sm text-left">
+
+        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3">Date</th>
+            <th class="px-6 py-3">Type</th>
+            <th class="px-6 py-3">Quantité</th>
+            <th class="px-6 py-3">Description</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+
+          @for (movement of movements; track movement._id) {
+
+            <tr class="hover:bg-gray-50">
+
+              <td class="px-6 py-4">
+                {{ movement.dt_time | date:'dd/MM/yyyy HH:mm' }}
+              </td>
+
+              <td class="px-6 py-4">
+
+                @if (movement.in > 0) {
+                  <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Entré
+                  </span>
+                } @else {
+                  <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                    Sortie
+                  </span>
+                }
+
+              </td>
+
+              <td class="px-6 py-4 font-semibold">
+                {{ movement.in > 0 ? movement.in : movement.out }}
+              </td>
+
+              <td class="px-6 py-4">
+                {{ movement.description || '-' }}
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+    </div>
+
+  }
+
+  @if (!loading && movements.length === 0) {
+    <div class="text-center py-6 text-gray-500">
+      Aucun mouvement enregistré.
+    </div>
+  }
+
+</div>
