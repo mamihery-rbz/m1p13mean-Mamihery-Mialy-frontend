@@ -14,6 +14,11 @@ export class OrderDetailComponent {
       status: string
     }>();
 
+    get_total_price() {
+      return this.details.reduce((total, item) => {
+        return total + (item.product?.price || 0) * item.quantity;
+      }, 0);
+    }
     change_detail_status(detailId: string, status: string) {
       this.detailStatusChange.emit({
         detailId,
@@ -21,7 +26,7 @@ export class OrderDetailComponent {
       });
     }
 
-    
+
    get_status_class(status: string) {
     switch (status) {
       case 'DELIVERED':

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Product, ProductsManagementService } from '../../../../services/shop/products-management/products-management.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormProductComponent } from "../components/form-product/form-product.component";
+import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
 
 @Component({
   selector: 'app-form-page',
-  imports: [FormProductComponent],
+  imports: [FormProductComponent, MainLayoutComponent],
   templateUrl: './form-page.component.html',
   styleUrl: './form-page.component.css'
 })

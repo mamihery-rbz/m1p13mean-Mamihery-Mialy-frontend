@@ -11,11 +11,12 @@
         <div class="text-red-500">{{ errorMessage }}</div>
       }
 </div> -->
-
-<app-orders-list
-  [orders]="orders"
-  [loading]="loading"
-  [errorMessage]="errorMessage"
-  (statusChange)="update_status($event)"
->
-</app-orders-list>
+<app-main-layout>
+  <app-orders-list
+    [orders]="orders"
+    [loading]="loading"
+    [errorMessage]="errorMessage"
+    (statusChange)="update_status($event)"
+  >
+  </app-orders-list>
+</app-main-layout>

@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Product, ProductsManagementService } from '../../../../services/shop/products-management/products-management.service';
 import { ListProductsComponent } from '../components/list-products/list-products.component';
 import { Router } from '@angular/router';
+import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
 
 @Component({
   standalone: true,
   selector: 'app-products-management-page',
-  imports: [ListProductsComponent],
+  imports: [ListProductsComponent, MainLayoutComponent],
   templateUrl: './products-management-page.component.html',
   styleUrl: './products-management-page.component.css'
 })
@@ -49,5 +50,5 @@ export class ProductsManagementPageComponent {
     });
   }
 
-  
+
 }

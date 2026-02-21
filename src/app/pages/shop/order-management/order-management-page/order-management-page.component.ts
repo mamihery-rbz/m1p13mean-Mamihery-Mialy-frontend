@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { OrdersListComponent } from '../components/orders-list/orders-list.component';
 import { OrderManagementService } from '../../../../services/shop/order-management/order-management.service';
 import { Router } from '@angular/router';
+import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
 
 @Component({
   standalone: true,
   selector: 'app-order-management-page',
-  imports: [OrdersListComponent],
+  imports: [OrdersListComponent, MainLayoutComponent],
   templateUrl: './order-management-page.component.html',
   styleUrl: './order-management-page.component.css'
 })

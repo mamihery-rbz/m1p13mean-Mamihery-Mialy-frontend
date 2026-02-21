@@ -1,87 +1,189 @@
-<div class="p-6">
+<div class="p-6 max-w-7xl mx-auto">
 
-  <h2 class="text-2xl font-bold mb-6">Liste des commandes</h2>
+  <!-- En-tête avec titre et statistiques rapides -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800">Liste des commandes</h2>
+      <p class="text-sm text-gray-500 mt-1">Gérez toutes les commandes de votre boutique</p>
+    </div>
 
+    @if (!loading && orders.length > 0) {
+      <div class="flex gap-2 text-sm">
+        <span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full">{{ orders.length }} commandes</span>
+      </div>
+    }
+  </div>
+
+  <!-- États de chargement et d'erreur -->
   @if (loading) {
-    <div class="text-center py-6">
-      Chargement...
+    <div class="bg-white rounded-xl shadow-sm p-8">
+      <div class="flex flex-col items-center justify-center space-y-3">
+        <div class="animate-spin rounded-full h-8 w-8 border-3 border-indigo-500 border-t-transparent"></div>
+        <p class="text-gray-500">Chargement des commandes...</p>
+      </div>
     </div>
   }
 
   @if (errorMessage) {
-    <div class="text-red-500 mb-4">
-      {{ errorMessage }}
+    <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-4">
+      <div class="flex items-center">
+        <svg class="h-5 w-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-red-700">{{ errorMessage }}</p>
+      </div>
     </div>
   }
 
+  <!-- Tableau des commandes -->
   @if (!loading && orders.length > 0) {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
 
-    <div class="overflow-x-auto bg-white shadow rounded-xl">
-      <table class="min-w-full text-sm text-left">
-        <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
-          <tr>
-            <th class="px-6 py-3">Client</th>
-            <th class="px-6 py-3">Total</th>
-            <th class="px-6 py-3">Status</th>
-            <th class="px-6 py-3">Date paiement</th>
-            <th class="px-6 py-3 text-right">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody class="divide-y divide-gray-200">
-
-          @for (order of orders; track order._id) {
-            <tr class="hover:bg-gray-50">
-
-              <td class="px-6 py-4 font-medium">
-                {{ order.user?.name }}
-              </td>
-
-              <td class="px-6 py-4">
-                {{ order.total_price | number:'1.0-2' }}
-              </td>
-
-              <td class="px-6 py-4">
-                <select
-                  class="border rounded-lg px-2 py-1 text-xs"
-                  [value]="order.status"
-                  (change)="onStatusChange($event, order)">
-                  <option value="PENDING">PENDING</option>
-                  <option value="PAID">PAID</option>
-                  <option value="CANCELLED">CANCELLED</option>
-                </select>
-              </td>
-
-              <td class="px-6 py-4">
-                <input type="date"
-                      [value]="order.dt_payment ? (order.dt_payment | date:'yyyy-MM-dd') : ''"
-                      (change)="onDateChange($event, order)"
-                      class="border rounded px-2 py-1 text-sm"/>
-              </td>
-
-
-
-              <td class="px-6 py-4 text-right">
-                <button
-                  (click)="go_to_details(order._id)"
-                  class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-xs">
-                  Voir
-                </button>
-              </td>
-
+      <!-- Version desktop : tableau -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200">
+              <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Client</th>
+              <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Total</th>
+              <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Statut</th>
+              <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date paiement</th>
+              <th class="px-6 py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
             </tr>
-          }
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            @for (order of orders; track order._id) {
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <span class="ml-3 font-medium text-gray-900">{{ order.user?.name || 'Client' }}</span>
+                  </div>
+                </td>
 
-        </tbody>
-      </table>
+                <!-- Total -->
+                <td class="px-6 py-4">
+                  <span class="font-medium text-gray-900">{{ order.total_price | number:'1.0-2' }} Ar</span>
+                </td>
+
+                <!-- Statut -->
+                <td class="px-6 py-4">
+                  <select
+                    [value]="order.status"
+                    (change)="onStatusChange($event, order)"
+                    class="border-0 bg-gray-50 rounded-lg px-3 py-1.5 text-sm font-medium focus:ring-2 focus:ring-indigo-500 cursor-pointer"
+                    [class.text-yellow-700]="order.status === 'PENDING'"
+                    [class.text-green-700]="order.status === 'PAID'"
+                    [class.text-red-700]="order.status === 'CANCELLED'"
+                  >
+                    <option value="PENDING" class="text-yellow-700">En attente</option>
+                    <option value="PAID" class="text-green-700">Payée</option>
+                    <option value="CANCELLED" class="text-red-700">Annulée</option>
+                  </select>
+                </td>
+
+                <!-- Date paiement -->
+                <td class="px-6 py-4">
+                  <input
+                    type="date"
+                    [value]="order.dt_payment ? (order.dt_payment | date:'yyyy-MM-dd') : ''"
+                    (change)="onDateChange($event, order)"
+                    class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="Non payé"
+                  />
+                </td>
+
+                <!-- Actions -->
+                <td class="px-6 py-4 text-right">
+                  <button
+                    (click)="go_to_details(order._id)"
+                    class="inline-flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    <span>Détails</span>
+                    <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Version mobile : cartes -->
+      <div class="md:hidden space-y-4 p-4">
+        @for (order of orders; track order._id) {
+          <div class="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
+            <!-- En-tête de carte -->
+            <div class="flex justify-between items-start">
+              <div class="flex items-center">
+                <div class="h-8 w-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-semibold text-xs">
+
+                </div>
+                <div class="ml-3">
+                  <p class="font-medium text-gray-900">{{ order.user?.name || 'Client' }}</p>
+                  <p class="text-xs text-gray-500">ID: {{ order._id | slice:0:8 }}...</p>
+                </div>
+              </div>
+              <span class="font-bold text-gray-900">{{ order.total_price | number:'1.0-2' }} €</span>
+            </div>
+
+            <!-- Détails -->
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p class="text-xs text-gray-500">Statut</p>
+                <select
+                  [value]="order.status"
+                  (change)="onStatusChange($event, order)"
+                  class="w-full border-0 bg-gray-50 rounded-lg px-2 py-1 text-xs font-medium"
+                >
+                  <option value="PENDING">En attente</option>
+                  <option value="PAID">Payée</option>
+                  <option value="CANCELLED">Annulée</option>
+                </select>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">Date paiement</p>
+                <input
+                  type="date"
+                  [value]="order.dt_payment ? (order.dt_payment | date:'yyyy-MM-dd') : ''"
+                  (change)="onDateChange($event, order)"
+                  class="w-full border border-gray-200 rounded-lg px-2 py-1 text-xs"
+                />
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end">
+              <button
+                (click)="go_to_details(order._id)"
+                class="inline-flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg text-sm font-medium transition-colors"
+              >
+                Voir détails
+                <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
     </div>
+  }
 
-  } @else if (!loading && orders.length === 0) {
-
-    <div class="text-center py-6 text-gray-500">
-      Aucune commande trouvée.
+  <!-- État vide -->
+  @if (!loading && orders.length === 0) {
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12">
+      <div class="text-center">
+        <div class="inline-flex h-12 w-12 bg-gray-100 rounded-lg items-center justify-center mb-4">
+          <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-1">Aucune commande</h3>
+        <p class="text-gray-500">Les commandes apparaîtront ici une fois créées.</p>
+      </div>
     </div>
-
   }
 
 </div>

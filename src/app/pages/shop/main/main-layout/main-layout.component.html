@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <app-header
+    (toggleSidebarEvent)="toggleSidebar()"
+    [userName]="userName"
+    [userInitials]="userInitials">
+  </app-header>
+
+  <!-- Sidebar -->
+  <app-sidebar
+    [isOpen]="isSidebarOpen"
+    (closeSidebarEvent)="closeSidebar()">
+  </app-sidebar>
+
+  <!-- Contenu principal -->
+  <main
+    class="pt-16 transition-all duration-300"
+    [class.lg:ml-64]="!isSidebarCollapsed"
+    [class.lg:ml-20]="isSidebarCollapsed"
+  >
+    <div class="p-6">
+      <ng-content></ng-content>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <app-footer
+    class="block transition-all duration-300"
+    [class.lg:ml-64]="!isSidebarCollapsed"
+    [class.lg:ml-20]="isSidebarCollapsed">
+  </app-footer>
+
+  <!-- Overlay mobile -->
+  <div
+    *ngIf="isSidebarOpen && isMobile"
+    (click)="closeSidebar()"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 z-30 lg:hidden">
+  </div>
+</div>

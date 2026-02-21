@@ -1,32 +1,132 @@
-<div class="p-6">
+<app-main-layout>
+  <div class="p-6 max-w-4xl mx-auto">
 
-  <h2 class="text-2xl font-bold mb-6">
-    Mouvement de stock
-  </h2>
-
-  @if (loading) {
-    <div>Chargement...</div>
-  }
-
-  @if (errorMessage) {
-    <div class="text-red-500 mb-4">{{ errorMessage }}</div>
-  }
-
-  @if (stockData) {
-
-    <div class="mb-6 bg-white p-4 rounded-xl shadow">
-      <p><strong>Produit :</strong> {{ stockData.product_name }}</p>
-      <p><strong>Categorie :</strong> {{ stockData.category }}</p>
-
-      <p><strong>Stock Total :</strong> {{ stockData.stock_total }}</p>
-      <p><strong>Disponible :</strong> {{ stockData.stock_available }}</p>
-      <p><strong>Réservé :</strong> {{ stockData.reserved }}</p>
+    <!-- En-tête avec navigation -->
+    <div class="flex items-center gap-4 mb-6">
+      <button
+        class="inline-flex items-center text-gray-600 hover:text-indigo-600 transition-colors"
+      >
+        <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Retour
+      </button>
+      <h2 class="text-2xl font-bold text-gray-800">Mouvement de stock</h2>
     </div>
 
-    <app-form-stock-movement
-      (submitMovement)="handleMovement($event)">
-    </app-form-stock-movement>
+    <!-- États de chargement et d'erreur -->
+    @if (loading) {
+      <div class="bg-white rounded-xl shadow-sm p-8">
+        <div class="flex flex-col items-center justify-center space-y-3">
+          <div class="animate-spin rounded-full h-8 w-8 border-3 border-indigo-500 border-t-transparent"></div>
+          <p class="text-gray-500">Chargement des informations...</p>
+        </div>
+      </div>
+    }
 
-  }
+    @if (errorMessage) {
+      <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-4">
+        <div class="flex items-center">
+          <svg class="h-5 w-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-red-700">{{ errorMessage }}</p>
+        </div>
+      </div>
+    }
 
-</div>
+    <!-- Carte d'information produit -->
+    @if (stockData) {
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Colonne de gauche : infos produit -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sticky top-24">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+              <svg class="h-5 w-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              Détails du produit
+            </h3>
+
+            <div class="space-y-4">
+              <!-- Nom produit avec avatar -->
+              <div class="flex items-center p-3 bg-indigo-50 rounded-lg">
+
+                <div class="ml-3">
+                  <p class="text-xs text-indigo-600">Produit</p>
+                  <p class="font-semibold text-gray-800">{{ stockData.product_name }}</p>
+                </div>
+              </div>
+
+              <!-- Catégorie -->
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <span class="text-sm text-gray-600">Catégorie</span>
+                <span class="text-sm font-semibold text-gray-800 bg-white px-3 py-1 rounded-full">
+                  {{ stockData.category || 'Non catégorisé' }}
+                </span>
+              </div>
+
+              <!-- Séparateur -->
+              <div class="border-t border-gray-100 my-2"></div>
+
+              <!-- Statistiques stock -->
+              <div class="grid grid-cols-2 gap-3">
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                  <p class="text-xs text-gray-500 mb-1">Stock Total</p>
+                  <p class="text-xl font-bold text-gray-800">{{ stockData.stock_total }}</p>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                  <p class="text-xs text-gray-500 mb-1">Réservé</p>
+                  <p class="text-xl font-bold text-amber-600">{{ stockData.reserved }}</p>
+                </div>
+              </div>
+
+              <!-- Disponible avec code couleur -->
+              <div class="p-4 rounded-lg"
+                   [class.bg-green-50]="stockData.stock_available > 10"
+                   [class.bg-amber-50]="stockData.stock_available <= 10 && stockData.stock_available > 0"
+                   [class.bg-red-50]="stockData.stock_available <= 0">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium"
+                        [class.text-green-700]="stockData.stock_available > 10"
+                        [class.text-amber-700]="stockData.stock_available <= 10 && stockData.stock_available > 0"
+                        [class.text-red-700]="stockData.stock_available <= 0">
+                    Disponible
+                  </span>
+                  <span class="text-2xl font-bold"
+                        [class.text-green-700]="stockData.stock_available > 10"
+                        [class.text-amber-700]="stockData.stock_available <= 10 && stockData.stock_available > 0"
+                        [class.text-red-700]="stockData.stock_available <= 0">
+                    {{ stockData.stock_available }}
+                  </span>
+                </div>
+
+                <!-- Barre de progression -->
+                <div class="mt-2">
+                  <div class="flex justify-between text-xs text-gray-500 mb-1">
+                    <span>Utilisation</span>
+                    <span>{{ ((stockData.stock_total - stockData.stock_available) / stockData.stock_total * 100) | number:'1.0-0' }}%</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-indigo-600 h-2 rounded-full"
+                         [style.width]="((stockData.stock_total - stockData.stock_available) / stockData.stock_total * 100) + '%'">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne de droite : formulaire -->
+        <div class="lg:col-span-2">
+          <app-form-stock-movement
+            (submitMovement)="handleMovement($event)"
+            >
+          </app-form-stock-movement>
+        </div>
+      </div>
+    }
+
+  </div>
+</app-main-layout>

@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { OrderDetailComponent } from '../components/order-detail/order-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { OrderManagementService } from '../../../../services/shop/order-management/order-management.service';
+import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
 
 @Component({
   selector: 'app-order-detail-page',
-  imports: [OrderDetailComponent],
+  imports: [OrderDetailComponent, MainLayoutComponent],
   templateUrl: './order-detail-page.component.html',
   styleUrl: './order-detail-page.component.css'
 })

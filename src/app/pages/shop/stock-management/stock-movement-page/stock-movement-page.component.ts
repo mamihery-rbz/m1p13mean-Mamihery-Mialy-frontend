@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StockManagementService } from '../../../../services/shop/stock-management/stock-management.service';
 import { FormStockMovementComponent } from "../components/form-stock-movement/form-stock-movement.component";
+import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-stock-movement-page',
-  imports: [FormStockMovementComponent],
+  imports: [FormStockMovementComponent, MainLayoutComponent, CommonModule],
   templateUrl: './stock-movement-page.component.html',
   styleUrl: './stock-movement-page.component.css'
 })

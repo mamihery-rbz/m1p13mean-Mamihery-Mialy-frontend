@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { StockProduct } from '../../../../../services/shop/stock-management/stock-management.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-list-stock-products',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './list-stock-products.component.html',
   styleUrl: './list-stock-products.component.css'
 })
