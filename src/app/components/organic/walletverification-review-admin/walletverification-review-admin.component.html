@@ -1,0 +1,34 @@
+<div class="space-y-3">
+          <!-- Wallet Verification -->
+          <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+            <div class="w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mb-3 shadow-md">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1M4.22 4.22l.707.707m12.728 12.728l.707.707M1 12h2m18 0h2M4.22 19.78l.707-.707M18.95 5.05l.707-.707"/>
+              </svg>
+            </div>
+            <p class="text-sm font-bold text-gray-900">Wallet Verification</p>
+            <p class="text-xs text-gray-400 mt-1 mb-3">Enable 2-step verification<br>to secure your wallet.</p>
+            <button (click)="enableVerification()" class="w-full bg-coral text-white text-xs font-semibold py-2 rounded-full hover:bg-coral-dark transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">Enable</button>
+          </div>
+
+          <!-- Review Rating -->
+          <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative">
+            <button class="absolute top-3 right-3 text-gray-300 hover:text-gray-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="flex gap-1 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+              <span class="w-4 h-1.5 rounded-full bg-gray-800"></span>
+            </div>
+            <p class="text-xs text-gray-400 mb-1">Review rating</p>
+            <p class="text-sm font-bold text-gray-900 mb-3">How is your business<br>management going?</p>
+            <div class="flex gap-2 justify-center">
+              <button *ngFor="let emoji of reviewEmojis; let i = index"
+                (click)="selectRating(i)"
+                [ngClass]="selectedRating === i ? 'scale-125' : ''"
+                class="text-xl transition-transform duration-200 hover:scale-125 cursor-pointer">
+                {{ emoji }}
+              </button>
+            </div>
+          </div>
+        </div>
