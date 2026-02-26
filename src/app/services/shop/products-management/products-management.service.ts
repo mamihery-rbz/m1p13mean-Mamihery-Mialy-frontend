@@ -54,8 +54,26 @@ export class ProductsManagementService {
     return this.http.put<Product>(`${this.apiUrl}/products/${id}`, product);
   }
 
-  // 🔹 Supprimer produit
   delete_product(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/products/${id}`);
+  }
+
+  get_filtered_products(filters: any) {
+
+    let params: any = {};
+
+    if (filters.min) params.min = filters.min;
+    if (filters.max) params.max = filters.max;
+    if (filters.name) params.name = filters.name;
+    if (filters.categories?.length) {
+      params.categories = filters.categories.join(',');
+    }
+
+    return this.http.get<Product[]>(`${this.apiUrl}/shop/products/filter`,
+      {
+        ...this.headers,
+        params
+      }
+    );
   }
 }

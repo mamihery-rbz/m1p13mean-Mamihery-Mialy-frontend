@@ -3,11 +3,12 @@ import { Product, ProductsManagementService } from '../../../../services/shop/pr
 import { ListProductsComponent } from '../components/list-products/list-products.component';
 import { Router } from '@angular/router';
 import { MainLayoutComponent } from "../../main/main-layout/main-layout.component";
+import { FilterProductsComponent } from "../components/filter-products/filter-products.component";
 
 @Component({
   standalone: true,
   selector: 'app-products-management-page',
-  imports: [ListProductsComponent, MainLayoutComponent],
+  imports: [ListProductsComponent, MainLayoutComponent, FilterProductsComponent],
   templateUrl: './products-management-page.component.html',
   styleUrl: './products-management-page.component.css'
 })
@@ -50,5 +51,20 @@ export class ProductsManagementPageComponent {
     });
   }
 
+  apply_filter(filters: any) {
+    this.loading = true;
 
+    this.productService.get_filtered_products(filters)
+      .subscribe({
+        next: (data) => {
+          this.products = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error(err);
+          this.errorMessage = err.error?.error || 'Erreur filtre';
+          this.loading = false;
+        }
+      });
+  }
 }

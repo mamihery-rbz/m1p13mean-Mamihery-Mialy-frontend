@@ -1,9 +1,15 @@
 
 <app-main-layout>
+
+  <app-filter-products
+    (filterChange)="apply_filter($event)">
+  </app-filter-products>
+
   <app-list-products
     [products]="products"
     [loading]="loading"
     [errorMessage]="errorMessage"
     (deleteProduct)="delete_product($event)">
   </app-list-products>
+  
 </app-main-layout>
