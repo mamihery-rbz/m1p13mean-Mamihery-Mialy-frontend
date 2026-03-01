@@ -61,4 +61,15 @@ export class StockManagementService {
     );
   }
 
+
+  get_filtered_stock_movement_products(productId: string, filters: any){
+    let params: any = {};
+    if (filters.dateMin) params.dateMin = filters.dateMin;
+    if (filters.dateMax) params.dateMax = filters.dateMax;
+    if (filters.quantityMin) params.quantityMin = filters.quantityMin;
+    if (filters.type) params.type = filters.type;
+
+    return this.http.get<any[]>(`${this.apiStockMovement}/history/filter/${productId}`, {params});
+
+  }
 }
