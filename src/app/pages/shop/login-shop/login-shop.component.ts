@@ -29,10 +29,12 @@ export class LoginShopComponent {
         next: (response) => {
           const token = response.result.token;
           const user = response.result.user;
+          const shop = response.result.shop;
           const message = response.success;
 
           this.authService.saveToken(token);
           this.authService.saveUser(user);
+          this.authService.saveShop(shop);
           this.router.navigate(['/dashboard-shop']);
         },
         error: (err) => {

@@ -28,6 +28,9 @@ export class AuthService {
   saveUser(user: any) {
     localStorage.setItem('user', JSON.stringify(user));
   }
+  saveShop(shop: any) {
+    localStorage.setItem('shop', JSON.stringify(shop));
+  }
 
   saveToken(token: string) {
     localStorage.setItem('token', token);

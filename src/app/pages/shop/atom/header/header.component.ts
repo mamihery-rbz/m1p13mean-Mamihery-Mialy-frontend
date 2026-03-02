@@ -13,6 +13,8 @@ export class HeaderComponent implements OnInit {
 
   @Input() userName: string = 'Admin';
   @Input() userInitials: string = 'AD';
+  @Input() shopName: string = 'Ma Boutique';
+
   @Output() toggleSidebarEvent = new EventEmitter<void>();
   user: any = null;
 
@@ -24,6 +26,10 @@ export class HeaderComponent implements OnInit {
       this.user = theUser;
       this.userName = theUser.name || 'Admin';
       this.userInitials = theUser.name ? theUser.name.split(' ').map((n: string) => n[0]).join('').toUpperCase() : 'AD';
+    }
+    const theShop = localStorage.getItem('shop') ? JSON.parse(localStorage.getItem('shop')!) : null;
+    if (theShop) {
+      this.shopName = theShop.name || 'Ma Boutique';
     }
   }
 

@@ -17,6 +17,7 @@ export class MainLayoutComponent {
 
   userName = 'Jean Dupont';
   userInitials = 'JD';
+  shopName = 'Ma Boutique';
 
   @HostListener('window:resize')
   onResize() {
