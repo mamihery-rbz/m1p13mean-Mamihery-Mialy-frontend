@@ -1,0 +1,20 @@
+<app-main-layout>
+  <div class="dashboard-container">
+
+    <!-- KPI Cards -->
+    <div class="mb-6">
+      <app-orders-kpi></app-orders-kpi>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-lg shadow p-6">
+        <app-turnover-chart></app-turnover-chart>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6">
+        <app-customers-chart></app-customers-chart>
+      </div>
+    </div>
+
+  </div>
+</app-main-layout>

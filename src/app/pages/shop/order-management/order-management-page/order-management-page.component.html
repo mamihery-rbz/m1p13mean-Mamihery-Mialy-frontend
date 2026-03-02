@@ -1,0 +1,22 @@
+<!-- <div class="p-6">
+      @if (loading) {
+        <div>Chargement...</div>
+      }
+
+      @if (orderDetails) {
+        <app-orders-list></app-orders-list>
+      }
+
+      @if (errorMessage) {
+        <div class="text-red-500">{{ errorMessage }}</div>
+      }
+</div> -->
+<app-main-layout>
+  <app-orders-list
+    [orders]="orders"
+    [loading]="loading"
+    [errorMessage]="errorMessage"
+    (statusChange)="update_status($event)"
+  >
+  </app-orders-list>
+</app-main-layout>
