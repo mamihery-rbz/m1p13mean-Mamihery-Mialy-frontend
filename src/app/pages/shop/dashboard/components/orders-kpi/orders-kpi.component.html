@@ -1,0 +1,77 @@
+@if (kpi) {
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+    <!-- Total -->
+    <div class="bg-linear-to-br from-indigo-500 to-indigo-600 rounded-lg shadow-lg p-6 text-white">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-indigo-100 text-sm">Total commandes</p>
+          <p class="text-3xl font-bold mt-1">{{ kpi.total_orders }}</p>
+        </div>
+        <div class="p-3 bg-indigo-400 bg-opacity-30 rounded-lg">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+      </div>
+      <div class="mt-4 text-indigo-100 text-sm">
+        <!-- <span class="font-medium">{{ kpi.paid_orders + kpi.unpaid_orders + kpi.pending_orders }}</span> commandes au total -->
+      </div>
+    </div>
+
+    <!-- Payées -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Payées</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1">{{ kpi.paid_orders }}</p>
+        </div>
+        <div class="p-2 bg-green-100 rounded-lg">
+          <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
+      <p class="text-sm text-green-600 mt-2">
+        {{ (kpi.paid_orders / kpi.total_orders * 100) | number:'1.0-0' }}% du total
+      </p>
+    </div>
+
+    <!-- Non payées -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Non payées</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1">{{ kpi.unpaid_orders }}</p>
+        </div>
+        <div class="p-2 bg-red-100 rounded-lg">
+          <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
+      <p class="text-sm text-red-600 mt-2">
+        {{ (kpi.unpaid_orders / kpi.total_orders * 100) | number:'1.0-0' }}% du total
+      </p>
+    </div>
+
+    <!-- En cours -->
+    <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">En cours</p>
+          <p class="text-2xl font-bold text-gray-800 mt-1">{{ kpi.pending_orders }}</p>
+        </div>
+        <div class="p-2 bg-yellow-100 rounded-lg">
+          <svg class="h-5 w-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
+      <p class="text-sm text-yellow-600 mt-2">
+        {{ (kpi.pending_orders / kpi.total_orders * 100) | number:'1.0-0' }}% du total
+      </p>
+    </div>
+
+  </div>
+}

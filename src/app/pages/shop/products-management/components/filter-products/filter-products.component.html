@@ -1,0 +1,56 @@
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+
+  <h3 class="text-sm font-semibold text-gray-700 mb-4">
+    Filtrer les produits
+  </h3>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <!-- Nom du produit -->
+    <div>
+      <label class="text-xs text-gray-500">Rechercher un produit</label>
+      <input
+        type="text"
+        [(ngModel)]="filters.name"
+        (input)="emitFilter()"
+        class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+        placeholder="Ex: Pomma"
+      />
+    </div>
+
+    <!-- Prix min -->
+    <div>
+      <label class="text-xs text-gray-500">Prix minimum</label>
+      <input
+        type="number"
+        [(ngModel)]="filters.min"
+        (input)="emitFilter()"
+        class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+        placeholder="0"
+      />
+    </div>
+
+    <!-- Prix max -->
+    <div>
+      <label class="text-xs text-gray-500">Prix maximum</label>
+      <input
+        type="number"
+        [(ngModel)]="filters.max"
+        (input)="emitFilter()"
+        class="w-full mt-1 border rounded-lg px-3 py-2 text-sm"
+        placeholder="100000"
+      />
+    </div>
+
+    <!-- Bouton reset -->
+    <div class="flex items-end">
+      <button
+        (click)="clearFilters()"
+        class="w-full bg-gray-100 hover:bg-gray-200 text-sm py-2 rounded-lg"
+      >
+        Réinitialiser
+      </button>
+    </div>
+
+  </div>
+
+</div>

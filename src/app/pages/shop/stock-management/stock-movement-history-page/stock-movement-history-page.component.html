@@ -1,0 +1,14 @@
+<app-main-layout>
+  <div class="p-6">
+        <app-filter-stock-movement
+          (filterChange)="applyFilter($event)">
+        </app-filter-stock-movement>
+
+        <app-list-stock-movement-products
+          [productId]="productId"
+          [product]="product"
+          [movements]="productsMovements"
+          [errorMessage]="errorMessage">
+        </app-list-stock-movement-products>
+  </div>
+</app-main-layout>

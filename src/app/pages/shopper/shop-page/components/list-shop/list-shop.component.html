@@ -1,0 +1,132 @@
+<div class="space-y-6">
+  <!-- En-tête -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Mes boutiques</h1>
+      <p class="text-gray-500 mt-1">Gérez toutes vos boutiques et leurs produits</p>
+    </div>
+
+    <!-- Statistique -->
+    @if (!loading && shops.length > 0) {
+      <div class="bg-indigo-50 px-4 py-2 rounded-lg">
+        <span class="text-sm font-medium text-indigo-700">
+          {{ shops.length }} boutique(s)
+        </span>
+      </div>
+    }
+  </div>
+
+  <!-- États de chargement et d'erreur -->
+  @if (loading) {
+    <div class="bg-white rounded-xl shadow-sm p-12">
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+        <p class="text-gray-500">Chargement des boutiques...</p>
+      </div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+      <div class="flex items-center">
+        <svg class="h-5 w-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-red-700">{{ error }}</p>
+      </div>
+    </div>
+  }
+
+  <!-- Liste des boutiques en cartes -->
+  @if (!loading && !error) {
+    @if (shops.length === 0) {
+      <!-- État vide -->
+      <div class="bg-white rounded-xl shadow-sm border-2 border-dashed border-gray-200 p-16">
+        <div class="text-center">
+          <div class="inline-flex h-20 w-20 bg-gray-100 rounded-full items-center justify-center mb-4">
+            <svg class="h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucune boutique</h3>
+          <p class="text-gray-500">Vous n'avez pas encore de boutique.</p>
+        </div>
+      </div>
+    } @else {
+      <!-- Grille de cartes -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (shop of shops; track shop._id) {
+          <div class="group bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1">
+            <!-- En-tête de la carte avec dégradé -->
+            <div class="h-32 bg-linear-to-r from-indigo-500 to-purple-600 relative overflow-hidden">
+              <!-- Pattern décoratif -->
+              <div class="absolute inset-0 opacity-10">
+                <svg width="100%" height="100%">
+                  <pattern id="pattern-{{shop._id}}" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <circle cx="20" cy="20" r="2" fill="white" />
+                  </pattern>
+                  <!-- <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern-{{shop._id}})" /> -->
+                </svg>
+              </div>
+
+              <!-- Avatar/Initiales -->
+              <div class="absolute -bottom-8 left-6">
+                <div class="h-20 w-20 bg-white rounded-2xl shadow-lg flex items-center justify-center border-4 border-white">
+                  <span class="text-2xl font-bold text-indigo-600">{{ getInitials(shop.name) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Corps de la carte -->
+            <div class="pt-12 p-6">
+              <!-- Nom et description -->
+              <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                {{ shop.name }}
+              </h3>
+
+              @if (shop.description) {
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {{ shop.description }}
+                </p>
+              } @else {
+                <p class="text-gray-400 text-sm mb-4 italic">
+                  Aucune description
+                </p>
+              }
+
+              <!-- Informations supplémentaires -->
+              <div class="space-y-2 mb-6">
+                <!-- Date de création -->
+                <div class="flex items-center text-sm text-gray-500">
+                  <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Créée le {{ formatDate(shop.createdAt) }}</span>
+                </div>
+
+                <!-- ID (optionnel) -->
+                <div class="flex items-center text-sm text-gray-500">
+                  <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                  </svg>
+                  <span class="font-mono text-xs">ID: {{ shop._id | slice:0:10 }}...</span>
+                </div>
+              </div>
+
+              <!-- Bouton d'action -->
+              <button
+                [routerLink]="['/shop', shop._id, 'products']"
+                class="w-full bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white px-4 py-3 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+              >
+                <span>Voir les produits</span>
+                <svg class="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

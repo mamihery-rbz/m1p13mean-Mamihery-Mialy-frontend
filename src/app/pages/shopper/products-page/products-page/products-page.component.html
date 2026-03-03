@@ -1,0 +1,93 @@
+<app-main-layout>
+  <div class="space-y-6">
+    <!-- En-tête avec navigation -->
+    <div class="flex items-center gap-4">
+      <button
+        routerLink="/shop-page"
+        class="inline-flex items-center text-gray-600 hover:text-indigo-600 transition-colors"
+      >
+        <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Retour aux boutiques
+      </button>
+    </div>
+
+    <!-- En-tête de la page -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">
+          Produits de la boutique
+        </h1>
+        <p class="text-gray-500 mt-1">
+          @if (shopName) {
+            {{ shopName }}
+          } @else {
+            Découvrez tous les produits disponibles
+          }
+        </p>
+      </div>
+
+      <!-- Statistique -->
+      @if (!loading && products.length > 0) {
+        <div class="bg-indigo-50 px-4 py-2 rounded-lg">
+          <span class="text-sm font-medium text-indigo-700">
+            {{ products.length }} produit(s)
+          </span>
+        </div>
+      }
+    </div>
+
+    <!-- États de chargement et d'erreur -->
+    @if (loading) {
+      <div class="bg-white rounded-xl shadow-sm p-12">
+        <div class="flex flex-col items-center justify-center space-y-4">
+          <div class="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+          <p class="text-gray-500">Chargement des produits...</p>
+        </div>
+      </div>
+    }
+
+    @if (error) {
+      <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+        <div class="flex items-center">
+          <svg class="h-5 w-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-red-700">{{ error }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Liste des produits -->
+    @if (!loading && !error) {
+      @if (products.length === 0) {
+        <!-- État vide -->
+        <div class="bg-white rounded-xl shadow-sm border-2 border-dashed border-gray-200 p-16">
+          <div class="text-center">
+            <div class="inline-flex h-20 w-20 bg-gray-100 rounded-full items-center justify-center mb-4">
+              <svg class="h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucun produit</h3>
+            <p class="text-gray-500">Cette boutique n'a pas encore de produits.</p>
+          </div>
+        </div>
+      } @else {
+        <!-- Grille de produits -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (product of products; track product._id) {
+            <app-card-product
+              [product]="product"
+              (addToCart)="addToCart($event)">
+            </app-card-product>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <app-card-button></app-card-button>
+  
+</app-main-layout>
