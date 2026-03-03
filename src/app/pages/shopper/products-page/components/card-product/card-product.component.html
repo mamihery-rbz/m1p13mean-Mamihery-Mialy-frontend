@@ -1,0 +1,73 @@
+<div class="group bg-white rounded-xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1">
+  <!-- Image placeholder avec initiales -->
+  <div class="h-48 bg-linear-to-br from-indigo-100 to-purple-100 relative overflow-hidden">
+    <div class="absolute inset-0 flex items-center justify-center">
+      <span class="text-5xl font-bold text-indigo-300">{{ getInitials(product.name) }}</span>
+    </div>
+
+    <!-- Badge nouveau (si créé récemment) -->
+    @if (isNewProduct(product.createdAt)) {
+      <div class="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+        Nouveau
+      </div>
+    }
+  </div>
+
+  <!-- Corps de la carte -->
+  <div class="p-5">
+    <!-- Nom et catégorie -->
+    <div class="mb-3">
+      <h3 class="text-lg font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors line-clamp-1">
+        {{ product.name }}
+      </h3>
+      <p class="text-sm text-gray-500">
+        Catégorie: {{ product.category_product?.name || 'Non catégorisé' }}
+      </p>
+    </div>
+
+    <!-- Prix -->
+    <div class="mb-4">
+      <span class="text-2xl font-bold text-gray-900">{{ product.price }} Ar</span>
+    </div>
+
+    <!-- Informations supplémentaires -->
+    <div class="space-y-2 mb-4 text-sm text-gray-500">
+      <!-- Date d'ajout -->
+      <div class="flex items-center">
+        <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Ajouté le {{ formatDate(product.createdAt) }}</span>
+      </div>
+
+      <!-- ID Produit -->
+      <div class="flex items-center">
+        <svg class="h-4 w-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+        </svg>
+        <span class="font-mono text-xs">ID: {{ product._id | slice:0:8 }}...</span>
+      </div>
+    </div>
+
+    <!-- Bouton d'action -->
+    <button
+      (click)="onAddToCart()"
+      class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+    >
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+      <span>Ajouter au panier</span>
+      <svg class="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </button>
+
+    <!-- Bouton d'action -->
+    @if (!hideActions) {
+      <button ... >
+        Ajouter au panier
+      </button>
+    }
+  </div>
+</div>
