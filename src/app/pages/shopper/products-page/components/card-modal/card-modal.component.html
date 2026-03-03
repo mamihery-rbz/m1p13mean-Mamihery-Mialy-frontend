@@ -100,7 +100,7 @@
 
                 <!-- Prix total et suppression -->
                 <div class="text-right min-w-[100px]">
-                  <p class="font-bold text-indigo-600">{{ item.price * item.quantity }}</p>
+                  <p class="font-bold text-indigo-600">{{ item.price * item.quantity }} Ar</p>
                   <button
                     (click)="removeItem(item)"
                     class="text-xs text-red-600 hover:text-red-700 mt-1 flex items-center justify-end gap-1"
@@ -131,7 +131,7 @@
         <!-- Total -->
         <div class="flex justify-between items-center mb-4">
           <span class="text-lg font-medium text-gray-700">Total</span>
-          <span class="text-2xl font-bold text-indigo-600">{{ cartService.totalPriceFormatted() }}</span>
+          <span class="text-2xl font-bold text-indigo-600">{{ cartService.totalPriceFormatted() }} Ar</span>
         </div>
 
         <!-- Actions -->

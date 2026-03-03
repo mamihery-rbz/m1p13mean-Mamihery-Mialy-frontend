@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 interface Product {
   id: number;
@@ -22,7 +23,9 @@ interface Product {
 })
 export class HomePageComponent {
 
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router) {}
 
   addToCart(product: Product) {
     console.log('Produit ajouté au panier:', product);
@@ -34,5 +37,10 @@ export class HomePageComponent {
   getDiscountPercentage(product: Product): number {
     if (!product.originalPrice) return 0;
     return Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login-shopper']);
   }
 }

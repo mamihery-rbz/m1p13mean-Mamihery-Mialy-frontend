@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login-shop.component.css'
 })
 export class LoginShopComponent {
-  name: string = '';
-  password: string = '';
+  name: string = 'Mimi';
+  password: string = '1234';
   role: string = 'SHOP';
   errorMessage: string = '';
 

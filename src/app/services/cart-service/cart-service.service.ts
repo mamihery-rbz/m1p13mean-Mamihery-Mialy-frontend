@@ -32,7 +32,7 @@ export class CartService {
   public items = this.cartItems.asReadonly();
   public itemCount = computed(() => this.cartItems().reduce((sum, item) => sum + item.quantity, 0));
   public totalPrice = computed(() => this.cartItems().reduce((sum, item) => sum + (item.price * item.quantity), 0));
-  public totalPriceFormatted = computed(() => this.formatPrice(this.totalPrice()));
+  public totalPriceFormatted = computed(() => this.totalPrice());
   public shopId = computed(() => this.cartItems().length > 0 ? this.cartItems()[0].shopId : null);
   public shopName = computed(() => this.cartItems().length > 0 ? this.cartItems()[0].shopName : null);
   public hasItems = computed(() => this.cartItems().length > 0);
